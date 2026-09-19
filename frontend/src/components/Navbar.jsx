@@ -15,7 +15,7 @@ const Navbar = ({ user, onLogout }) => {
     }
   };
 
-  // Prevent duplicate navbar on home landing page since Hero has its own dark nav bar
+  // Prevent duplicate navbar on home landing page since Hero has its own dark header bar
   if (location.pathname === '/') {
     return null;
   }
@@ -55,6 +55,22 @@ const Navbar = ({ user, onLogout }) => {
                     className={`nav-link ${location.pathname.startsWith('/materials') ? 'active' : ''}`}
                   >
                     Study Materials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/quizzes"
+                    className={`nav-link ${location.pathname.startsWith('/quizzes') ? 'active' : ''}`}
+                  >
+                    Quizzes
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/my-progress"
+                    className={`nav-link ${location.pathname === '/my-progress' ? 'active' : ''}`}
+                  >
+                    My Progress
                   </Link>
                 </li>
                 <li>

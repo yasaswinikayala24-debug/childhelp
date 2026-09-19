@@ -77,6 +77,16 @@ const Hero = () => {
                     </Link>
                   </li>
                   <li>
+                    <Link to="/quizzes" className="hero-nav-link">
+                      Quizzes
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/my-progress" className="hero-nav-link">
+                      My Progress
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/dashboard" className="hero-nav-link">
                       Dashboard
                     </Link>
@@ -139,6 +149,16 @@ const Hero = () => {
                   <li>
                     <Link to="/materials" onClick={() => setMobileMenuOpen(false)}>
                       Study Materials
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/quizzes" onClick={() => setMobileMenuOpen(false)}>
+                      Quizzes
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/my-progress" onClick={() => setMobileMenuOpen(false)}>
+                      My Progress
                     </Link>
                   </li>
                   <li>

@@ -10,12 +10,93 @@ const progressRoutes = require('./routes/progressRoutes');
 const studySessionRoutes = require('./routes/studySessionRoutes');
 const goalRoutes = require('./routes/goalRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
+const quizRoutes = require('./routes/quizRoutes');
+const quizAttemptRoutes = require('./routes/quizAttemptRoutes');
+const Quiz = require('./models/Quiz');
 
 // Load environment variables
 dotenv.config();
 
 // Connect to MongoDB
-connectDB();
+connectDB().then(async () => {
+  try {
+    // Seed initial test quizzes if collection is empty
+    const count = await Quiz.countDocuments();
+    if (count === 0) {
+      await Quiz.create([
+        {
+          title: 'Basic Python Quiz',
+          description: 'Test your Python fundamentals and basic programming concepts.',
+          subject: 'Programming',
+          classLevel: '10',
+          questions: [
+            {
+              questionText: 'Which keyword is used to define a function in Python?',
+              options: ['function', 'def', 'func', 'define'],
+              correctAnswer: 'def',
+            },
+            {
+              questionText: 'How do you output text to the console in Python?',
+              options: ['console.log()', 'print()', 'echo()', 'output()'],
+              correctAnswer: 'print()',
+            },
+            {
+              questionText: 'Which data type is used to store text in Python?',
+              options: ['str', 'int', 'float', 'bool'],
+              correctAnswer: 'str',
+            },
+            {
+              questionText: 'Which symbol is used for comments in Python?',
+              options: ['//', '/* */', '#', '<!-- -->'],
+              correctAnswer: '#',
+            },
+            {
+              questionText: 'What is the result of 5 ** 2 in Python?',
+              options: ['10', '25', '7', '52'],
+              correctAnswer: '25',
+            },
+          ],
+        },
+        {
+          title: 'Basic Science Quiz',
+          description: 'Test your understanding of elementary physics, biology, and chemistry concepts.',
+          subject: 'Science',
+          classLevel: '10',
+          questions: [
+            {
+              questionText: 'What gas do plants absorb from the atmosphere during photosynthesis?',
+              options: ['Oxygen', 'Carbon Dioxide', 'Nitrogen', 'Hydrogen'],
+              correctAnswer: 'Carbon Dioxide',
+            },
+            {
+              questionText: 'What is the chemical symbol for Water?',
+              options: ['CO2', 'H2O', 'O2', 'NaCl'],
+              correctAnswer: 'H2O',
+            },
+            {
+              questionText: 'Which organ in the human body pumps blood?',
+              options: ['Lungs', 'Brain', 'Heart', 'Liver'],
+              correctAnswer: 'Heart',
+            },
+            {
+              questionText: 'What is the boiling point of pure water at sea level?',
+              options: ['50°C', '80°C', '100°C', '120°C'],
+              correctAnswer: '100°C',
+            },
+            {
+              questionText: 'Which planet is known as the Red Planet?',
+              options: ['Venus', 'Mars', 'Jupiter', 'Saturn'],
+              correctAnswer: 'Mars',
+            },
+          ],
+        },
+      ]);
+      console.log('Seeded initial test quizzes');
+    }
+  } catch (err) {
+    console.error('Error seeding test quizzes:', err);
+  }
+});
 
 const app = express();
 
@@ -44,7 +125,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'ChildHelp API is running' });
 });
 
-// Authentication & Smart Learning Hub routes
+// Authentication & Core API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
@@ -53,6 +134,10 @@ app.use('/api/progress', progressRoutes);
 app.use('/api/study-sessions', studySessionRoutes);
 app.use('/api/goals', goalRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+
+// Phase 3 Quiz & Progress routes
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/quiz-attempts', quizAttemptRoutes);
 
 // Error handler for unknown routes
 app.use((req, res) => {

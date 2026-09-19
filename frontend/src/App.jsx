@@ -10,6 +10,10 @@ import Dashboard from './pages/Dashboard';
 import StudyMaterials from './pages/StudyMaterials';
 import MaterialDetails from './pages/MaterialDetails';
 import MyLearning from './pages/MyLearning';
+import Quizzes from './pages/Quizzes';
+import QuizDetails from './pages/QuizDetails';
+import QuizResult from './pages/QuizResult';
+import MyProgress from './pages/MyProgress';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -47,7 +51,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Login Page: Redirect to /dashboard if logged in */}
+        {/* Login Page */}
         <Route
           path="/login"
           element={
@@ -59,7 +63,7 @@ function App() {
           }
         />
 
-        {/* Register Page: Redirect to /dashboard if logged in */}
+        {/* Register Page */}
         <Route
           path="/register"
           element={
@@ -83,7 +87,7 @@ function App() {
           }
         />
 
-        {/* Protected Study Materials Route */}
+        {/* Protected Study Materials Routes */}
         <Route
           path="/materials"
           element={
@@ -94,8 +98,6 @@ function App() {
             )
           }
         />
-
-        {/* Protected Material Details Route */}
         <Route
           path="/materials/:id"
           element={
@@ -107,12 +109,54 @@ function App() {
           }
         />
 
-        {/* Protected My Learning Hub Route */}
+        {/* Protected Smart Learning Hub Route */}
         <Route
           path="/my-learning"
           element={
             user ? (
               <MyLearning />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Phase 3 Protected Quizzes & Progress Routes */}
+        <Route
+          path="/quizzes"
+          element={
+            user ? (
+              <Quizzes />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/quizzes/:id"
+          element={
+            user ? (
+              <QuizDetails />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/quiz-result"
+          element={
+            user ? (
+              <QuizResult />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/my-progress"
+          element={
+            user ? (
+              <MyProgress />
             ) : (
               <Navigate to="/login" replace />
             )
