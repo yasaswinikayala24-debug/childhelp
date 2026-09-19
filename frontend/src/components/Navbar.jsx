@@ -15,6 +15,11 @@ const Navbar = ({ user, onLogout }) => {
     }
   };
 
+  // Prevent duplicate navbar on home landing page since Hero has its own dark nav bar
+  if (location.pathname === '/') {
+    return null;
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-container">
