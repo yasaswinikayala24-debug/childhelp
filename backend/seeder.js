@@ -9,37 +9,37 @@ const sampleUsers = [
   {
     name: 'Rahul Sharma',
     email: 'rahul@gmail.com',
-    password: 'password123',
+    password: 'ChildHelp2026!',
     role: 'student',
   },
   {
     name: 'Priya Patel',
     email: 'priya@gmail.com',
-    password: 'password123',
+    password: 'ChildHelp2026!',
     role: 'student',
   },
   {
     name: 'Ankit Kumar',
     email: 'ankit@gmail.com',
-    password: 'password123',
+    password: 'ChildHelp2026!',
     role: 'student',
   },
   {
     name: 'Dr. Vikram Sarabhai',
     email: 'vikram@gmail.com',
-    password: 'password123',
+    password: 'ChildHelp2026!',
     role: 'mentor',
   },
   {
     name: 'Prof. Sunita Rao',
     email: 'sunita@gmail.com',
-    password: 'password123',
+    password: 'ChildHelp2026!',
     role: 'mentor',
   },
   {
     name: 'ChildHelp Admin',
     email: 'admin@childhelp.org',
-    password: 'adminpassword123',
+    password: 'ChildHelp2026!',
     role: 'admin',
   },
 ];
