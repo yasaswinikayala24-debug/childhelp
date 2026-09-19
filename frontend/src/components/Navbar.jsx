@@ -15,6 +15,7 @@ const Navbar = ({ user, onLogout }) => {
     }
   };
 
+  // If home page with full screen landing, we still present navbar
   if (location.pathname === '/') {
     return null;
   }
@@ -37,20 +38,33 @@ const Navbar = ({ user, onLogout }) => {
                 Home
               </Link>
             </li>
-            <li>
-              <a href="#about" className="nav-link">
-                About
-              </a>
-            </li>
             {user && (
-              <li>
-                <Link
-                  to="/dashboard"
-                  className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
-                >
-                  Dashboard
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link
+                    to="/dashboard"
+                    className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/materials"
+                    className={`nav-link ${location.pathname.startsWith('/materials') ? 'active' : ''}`}
+                  >
+                    Study Materials
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/my-learning"
+                    className={`nav-link ${location.pathname === '/my-learning' ? 'active' : ''}`}
+                  >
+                    My Learning
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
         </nav>
@@ -59,7 +73,7 @@ const Navbar = ({ user, onLogout }) => {
           {user ? (
             <>
               <span className="user-badge" style={{ margin: 0 }}>
-                {user.name} ({user.role})
+                👤 {user.name} ({user.role || 'Student'})
               </span>
               <button onClick={handleLogout} className="btn btn-outline" style={{ padding: '0.45rem 1rem' }}>
                 Logout

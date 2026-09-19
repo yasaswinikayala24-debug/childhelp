@@ -23,7 +23,7 @@ const materialSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['PDF', 'VIDEO', 'LINK'],
+      enum: ['PDF', 'VIDEO', 'LINK', 'ARTICLE'],
       default: 'PDF',
     },
     resourceUrl: {
@@ -31,6 +31,21 @@ const materialSchema = new mongoose.Schema(
       required: [true, 'Resource URL is required'],
       trim: true,
     },
+    difficulty: {
+      type: String,
+      enum: ['Beginner', 'Intermediate', 'Advanced'],
+      default: 'Beginner',
+    },
+    estimatedTime: {
+      type: Number,
+      default: 15, // in minutes
+    },
+    keywords: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     uploadedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

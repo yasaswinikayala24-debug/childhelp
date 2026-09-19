@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import StudyMaterials from './pages/StudyMaterials';
 import MaterialDetails from './pages/MaterialDetails';
+import MyLearning from './pages/MyLearning';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -98,6 +99,18 @@ function App() {
           element={
             user ? (
               <MaterialDetails />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Protected My Learning Hub Route */}
+        <Route
+          path="/my-learning"
+          element={
+            user ? (
+              <MyLearning />
             ) : (
               <Navigate to="/login" replace />
             )

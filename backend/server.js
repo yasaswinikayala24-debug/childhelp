@@ -4,6 +4,12 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const materialRoutes = require('./routes/materialRoutes');
+const bookmarkRoutes = require('./routes/bookmarkRoutes');
+const noteRoutes = require('./routes/noteRoutes');
+const progressRoutes = require('./routes/progressRoutes');
+const studySessionRoutes = require('./routes/studySessionRoutes');
+const goalRoutes = require('./routes/goalRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -38,9 +44,15 @@ app.get('/', (req, res) => {
   res.json({ message: 'ChildHelp API is running' });
 });
 
-// Authentication & Study Material routes
+// Authentication & Smart Learning Hub routes
 app.use('/api/auth', authRoutes);
 app.use('/api/materials', materialRoutes);
+app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/progress', progressRoutes);
+app.use('/api/study-sessions', studySessionRoutes);
+app.use('/api/goals', goalRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 // Error handler for unknown routes
 app.use((req, res) => {
