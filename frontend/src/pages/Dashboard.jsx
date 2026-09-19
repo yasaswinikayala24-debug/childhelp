@@ -75,7 +75,7 @@ const Dashboard = ({ user, onLogout }) => {
               <p className="module-desc">
                 Access curated textbooks, practice sheets, and video tutorials for all grade levels.
               </p>
-              <span className="module-badge">Phase 2 Module</span>
+              <span className="module-badge">Coming Soon</span>
             </div>
 
             {/* 2. Scholarships */}
@@ -85,7 +85,7 @@ const Dashboard = ({ user, onLogout }) => {
               <p className="module-desc">
                 Explore eligible educational grants, financial support, and application deadlines.
               </p>
-              <span className="module-badge">Phase 2 Module</span>
+              <span className="module-badge">Coming Soon</span>
             </div>
 
             {/* 3. Quizzes */}
@@ -95,7 +95,7 @@ const Dashboard = ({ user, onLogout }) => {
               <p className="module-desc">
                 Interactive subject quizzes to test knowledge and earn performance badges.
               </p>
-              <span className="module-badge">Phase 2 Module</span>
+              <span className="module-badge">Coming Soon</span>
             </div>
 
             {/* 4. Doubts */}
@@ -105,7 +105,7 @@ const Dashboard = ({ user, onLogout }) => {
               <p className="module-desc">
                 Ask questions directly to verified mentors and receive step-by-step solutions.
               </p>
-              <span className="module-badge">Phase 2 Module</span>
+              <span className="module-badge">Coming Soon</span>
             </div>
 
             {/* 5. Progress */}
@@ -115,7 +115,7 @@ const Dashboard = ({ user, onLogout }) => {
               <p className="module-desc">
                 Track learning statistics, quiz scores, and academic growth history.
               </p>
-              <span className="module-badge">Phase 2 Module</span>
+              <span className="module-badge">Coming Soon</span>
             </div>
           </div>
         </>
