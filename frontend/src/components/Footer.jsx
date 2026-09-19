@@ -9,7 +9,7 @@ const Footer = () => {
           One Platform for Children's Education & Support. Empowering students with free learning materials, scholarship guidance, and mentor support.
         </p>
         <div className="footer-copy">
-          &copy; {new Date().getFullYear()} ChildHelp Platform. All rights reserved. Phase 1 - Foundation & Authentication.
+          &copy; {new Date().getFullYear()} ChildHelp Platform. All rights reserved. One Platform for Children's Education & Support.
         </div>
       </div>
     </footer>

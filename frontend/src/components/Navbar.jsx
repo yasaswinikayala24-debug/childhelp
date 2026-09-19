@@ -39,24 +39,14 @@ const Navbar = ({ user, onLogout }) => {
               </a>
             </li>
             {user && (
-              <>
-                <li>
-                  <Link
-                    to="/dashboard"
-                    className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/materials"
-                    className={`nav-link ${location.pathname.startsWith('/materials') ? 'active' : ''}`}
-                  >
-                    Study Materials
-                  </Link>
-                </li>
-              </>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
+                >
+                  Dashboard
+                </Link>
+              </li>
             )}
           </ul>
         </nav>

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const User = require('./models/User');
-const Material = require('./models/Material');
 
 dotenv.config();
 
@@ -45,65 +44,6 @@ const sampleUsers = [
   },
 ];
 
-const sampleMaterials = [
-  {
-    title: 'Class 10 Algebra & Quadratic Equations Comprehensive Guide',
-    description: 'Master quadratic formulas, factorization, real-root determinations, and solved practice questions for Class 10 mathematics examinations.',
-    subject: 'Mathematics',
-    classLevel: 'Class 10',
-    type: 'PDF',
-    resourceUrl: 'https://ncert.nic.in/textbook/pdf/jemh104.pdf',
-  },
-  {
-    title: 'Fundamental Physics: Motion, Forces & Laws of Motion Explained',
-    description: 'A visual video walkthrough explaining Newton laws of motion, velocity-time graphs, and momentum equations for Class 9 science students.',
-    subject: 'Science',
-    classLevel: 'Class 9',
-    type: 'VIDEO',
-    resourceUrl: 'https://www.youtube.com/watch?v=kKKM8Y-u7ds',
-  },
-  {
-    title: 'Complete English Grammar, tenses & Essay Writing Handbook',
-    description: 'Comprehensive study guide covering sentence structures, active/passive voice, idioms, phrases, and formal letter writing templates.',
-    subject: 'English',
-    classLevel: 'Class 8',
-    type: 'PDF',
-    resourceUrl: 'https://www.w3schools.com/grammar/',
-  },
-  {
-    title: 'Introduction to JavaScript & Building Web Pages for Beginners',
-    description: 'Learn modern programming concepts including variables, loops, arrays, functions, and interactive DOM manipulation using JavaScript.',
-    subject: 'Programming',
-    classLevel: 'Class 10',
-    type: 'VIDEO',
-    resourceUrl: 'https://www.youtube.com/watch?v=hdI2bqOjy3c',
-  },
-  {
-    title: 'World Geography, Solar System & Environmental Science Notes',
-    description: 'Interactive reference notes covering earth layers, atmospheric pressure belts, ocean currents, and global conservation awareness.',
-    subject: 'General Knowledge',
-    classLevel: 'Class 8',
-    type: 'LINK',
-    resourceUrl: 'https://www.nationalgeographic.com/education',
-  },
-  {
-    title: 'Class 12 Organic Chemistry Mechanisms & Hydrocarbon Reactions',
-    description: 'Detailed reaction mechanisms, electrophilic additions, resonance structures, and functional group conversions for board exams.',
-    subject: 'Science',
-    classLevel: 'Class 12',
-    type: 'PDF',
-    resourceUrl: 'https://ncert.nic.in/textbook/pdf/lech201.pdf',
-  },
-  {
-    title: 'Python Programming Basics for Young Learners',
-    description: 'Beginner-friendly tutorial covering Python syntax, data types, logic building, problem solving, and basic math algorithms.',
-    subject: 'Programming',
-    classLevel: 'Class 9',
-    type: 'LINK',
-    resourceUrl: 'https://docs.python.org/3/tutorial/index.html',
-  },
-];
-
 const seedData = async () => {
   try {
     const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/childhelp';
@@ -130,23 +70,8 @@ const seedData = async () => {
 
     // Insert sample users
     const createdUsers = await User.insertMany(preparedUsers);
-    console.log(`✅ Successfully seeded ${createdUsers.length} users into MongoDB!`);
-
-    // Assign mentor user to study materials
-    const mentorUser = createdUsers.find((u) => u.role === 'mentor') || createdUsers[0];
-    await Material.deleteMany({});
-    console.log('Cleaned existing study materials.');
-
-    const preparedMaterials = sampleMaterials.map((m) => ({
-      ...m,
-      uploadedBy: mentorUser._id,
-    }));
-
-    const createdMaterials = await Material.insertMany(preparedMaterials);
-    console.log(`✅ Successfully seeded ${createdMaterials.length} study materials into MongoDB!`);
-
-    console.log('\n--------------------------------------------------');
-    console.log('Sample Logins:');
+    console.log(`\n✅ Successfully seeded ${createdUsers.length} users into MongoDB!`);
+    console.log('--------------------------------------------------');
     sampleUsers.forEach((u) => {
       console.log(`Role: ${u.role.padEnd(8)} | Email: ${u.email.padEnd(22)} | Password: ${u.password}`);
     });
@@ -166,8 +91,7 @@ if (process.argv[2] === '-d') {
         dbName: 'childhelp',
       });
       await User.deleteMany();
-      await Material.deleteMany();
-      console.log('All Users and Study Materials Destroyed!');
+      console.log('All Users Destroyed!');
       process.exit(0);
     } catch (error) {
       console.error(`Error destroying data: ${error.message}`);

@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import StudyMaterials from './pages/StudyMaterials';
-import MaterialDetails from './pages/MaterialDetails';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -45,7 +42,7 @@ function App() {
         {/* Public Landing Page */}
         <Route path="/" element={<Home />} />
 
-        {/* Public Login Page (Redirects to /dashboard if already logged in) */}
+        {/* Login Page: Redirect to /dashboard if logged in */}
         <Route
           path="/login"
           element={
@@ -57,7 +54,7 @@ function App() {
           }
         />
 
-        {/* Public Register Page (Redirects to /dashboard if already logged in) */}
+        {/* Register Page: Redirect to /dashboard if logged in */}
         <Route
           path="/register"
           element={
@@ -69,33 +66,15 @@ function App() {
           }
         />
 
-        {/* Protected Dashboard Route */}
+        {/* Protected Dashboard Route: Redirect to /login if not logged in */}
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+            user ? (
               <Dashboard user={user} onLogout={handleLogout} />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Protected Study Materials Explorer Route */}
-        <Route
-          path="/materials"
-          element={
-            <ProtectedRoute>
-              <StudyMaterials />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Protected Material Details Route */}
-        <Route
-          path="/materials/:id"
-          element={
-            <ProtectedRoute>
-              <MaterialDetails />
-            </ProtectedRoute>
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
 
