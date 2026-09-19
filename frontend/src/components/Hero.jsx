@@ -1,83 +1,131 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ConstellationField } from '../shaders/constellation-field/ConstellationField';
+import '../shaders/threeui.css';
 import './Hero.css';
 
 const Hero = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="light-landing-wrapper">
-      {/* Top Navbar */}
-      <header className="light-navbar">
-        <div className="light-navbar-container">
-          <Link to="/" className="light-brand-logo">
-            <span className="sprout-icon">🌱</span>
-            <span className="brand-name">ChildHelp</span>
+    <section className="futuristic-hero-container">
+      {/* ThreeUI Animated Constellation Field Background */}
+      <div className="shader-frame constellation-bg-wrapper" aria-hidden="true">
+        <ConstellationField
+          mode="dark"
+          speed={1.00}
+          size={1.00}
+          strokeWidth={1.00}
+          length={1.00}
+          density={1.00}
+          opacity={1.00}
+          hue={0}
+          saturation={1.00}
+          brightness={1.00}
+          className="constellation-canvas"
+        />
+        <div className="hero-radial-overlay" />
+      </div>
+
+      {/* Top Navigation */}
+      <header className="hero-nav">
+        <div className="hero-nav-container">
+          <Link to="/" className="hero-brand" aria-label="ChildHelp Home">
+            <div className="brand-symbol">
+              <span className="symbol-spark">✦</span>
+            </div>
+            <span className="brand-text">ChildHelp <span className="brand-accent">AI</span></span>
           </Link>
 
-          <nav className="light-nav-menu">
-            <ul className="light-nav-links">
-              <li>
-                <a href="#home" className="light-nav-link active">Home</a>
-              </li>
-              <li>
-                <a href="#about" className="light-nav-link">About</a>
-              </li>
+          {/* Desktop Navigation Links */}
+          <nav className="hero-desktop-nav" aria-label="Main Navigation">
+            <ul className="hero-nav-links">
+              <li><a href="#home" className="hero-nav-link active">Home</a></li>
+              <li><a href="#features" className="hero-nav-link">Features</a></li>
+              <li><a href="#solutions" className="hero-nav-link">Solutions</a></li>
+              <li><a href="#about" className="hero-nav-link">About</a></li>
             </ul>
           </nav>
 
-          <div className="light-nav-actions">
-            <Link to="/login" className="btn-light-outline">
-              Login
+          {/* Right Side CTA */}
+          <div className="hero-nav-actions">
+            <Link to="/register" className="btn-hero-cta btn-hero-nav">
+              Get Started
             </Link>
-            <Link to="/register" className="btn-light-primary">
-              Register
-            </Link>
+            <button
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Navigation Menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <span className={`hamburger-bar ${mobileMenuOpen ? 'open' : ''}`}></span>
+              <span className={`hamburger-bar ${mobileMenuOpen ? 'open' : ''}`}></span>
+              <span className={`hamburger-bar ${mobileMenuOpen ? 'open' : ''}`}></span>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="hero-mobile-drawer">
+            <ul className="mobile-nav-links">
+              <li><a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
+              <li><a href="#features" onClick={() => setMobileMenuOpen(false)}>Features</a></li>
+              <li><a href="#solutions" onClick={() => setMobileMenuOpen(false)}>Solutions</a></li>
+              <li><a href="#about" onClick={() => setMobileMenuOpen(false)}>About</a></li>
+              <li>
+                <Link to="/register" className="btn-hero-primary btn-mobile-cta" onClick={() => setMobileMenuOpen(false)}>
+                  Get Started
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </header>
 
       {/* Main Hero Content */}
-      <main className="light-hero-container">
-        <div className="light-hero-grid">
-          {/* Left Column: Headline & CTAs */}
-          <div className="light-hero-left">
-            <div className="light-hero-badge">
-              <span className="badge-icon">🎓</span>
-              <span>Educational Empowerment Platform</span>
-            </div>
-
-            <h1 className="light-hero-title">
-              One Platform for Children's Education & Support
-            </h1>
-
-            <p className="light-hero-subtitle">
-              ChildHelp bridges the gap between eager young learners and quality educational opportunities. Access free learning materials, discover scholarships, and connect with dedicated mentors.
-            </p>
-
-            <div className="light-hero-cta">
-              <Link to="/register" className="btn-light-hero-primary">
-                Get Started Free
-              </Link>
-              <Link to="/login" className="btn-light-hero-secondary">
-                Member Login
-              </Link>
-            </div>
+      <div className="hero-content-wrapper">
+        <div className="hero-content">
+          {/* Eyebrow Badge */}
+          <div className="hero-eyebrow-badge">
+            <span className="badge-pulse-dot"></span>
+            <span className="eyebrow-text">THE NEXT GENERATION OF INTELLIGENT TECHNOLOGY</span>
           </div>
 
-          {/* Right Column: Gradient Card with Rocket */}
-          <div className="light-hero-right">
-            <div className="light-gradient-card">
-              <div className="card-rocket-icon">🚀</div>
-              <h2 className="card-title">Bright Futures Start Here</h2>
-              <p className="card-description">
-                Join thousands of students and mentors creating a brighter educational ecosystem together.
-              </p>
-            </div>
+          {/* Large Headline */}
+          <h1 className="hero-headline">
+            Build the Future With <span className="highlight-glow-text">Intelligent Systems</span>
+          </h1>
+
+          {/* Supporting Text */}
+          <p className="hero-supporting-text">
+            Transform ideas into powerful digital experiences with AI, automation, and modern full-stack technology.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="hero-button-group">
+            <Link to="/register" className="btn-hero-primary">
+              Get Started
+              <svg className="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </Link>
+            <a href="#features" className="btn-hero-secondary">
+              Explore More
+            </a>
           </div>
         </div>
-      </main>
-    </div>
+
+        {/* Scroll Indicator */}
+        <div className="hero-scroll-indicator" aria-hidden="true">
+          <span className="scroll-label">SCROLL TO EXPLORE</span>
+          <div className="scroll-mouse">
+            <div className="scroll-wheel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
