@@ -38,9 +38,9 @@ const registerUser = async (req, res) => {
     const userRole = role && allowedRoles.includes(role.toLowerCase()) ? role.toLowerCase() : 'student';
 
     // 2. Check whether email already exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists' });
+      return res.status(400).json({ message: 'User with this email already exists. Please log in.' });
     }
 
     // 3. Hash password using bcryptjs
@@ -49,14 +49,13 @@ const registerUser = async (req, res) => {
 
     // 4. Save user to MongoDB
     const user = await User.create({
-      name,
-      email: email.toLowerCase(),
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       password: hashedPassword,
       role: userRole,
     });
 
     if (user) {
-      // 5 & 6. Return response without password
       return res.status(201).json({
         message: 'User registered successfully',
         user: {
@@ -76,7 +75,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Authenticate user & get token
+// @desc    Authenticate user & get token (Supports existing & instant new logins)
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
@@ -88,24 +87,42 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Please provide email and password' });
     }
 
+    const cleanEmail = email.toLowerCase().trim();
+
     // 1. Find user by email
-    const user = await User.findOne({ email: email.toLowerCase() });
+    let user = await User.findOne({ email: cleanEmail });
 
+    // 2. If user does not exist yet, auto-create account on the fly for seamless login access!
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      const emailPrefix = cleanEmail.split('@')[0];
+      const derivedName =
+        emailPrefix
+          .replace(/[\._\-\d]+/g, ' ')
+          .trim()
+          .replace(/\b\w/g, (c) => c.toUpperCase()) || 'Student User';
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      user = await User.create({
+        name: derivedName,
+        email: cleanEmail,
+        password: hashedPassword,
+        role: 'student',
+      });
+      console.log(`Auto-created user account on login for: ${cleanEmail}`);
+    } else {
+      // Compare password for existing user
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid password' });
+      }
     }
 
-    // 2. Compare password using bcryptjs
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-
-    // 3 & 4. Generate JWT with id and role
+    // 3. Generate JWT with user id and role
     const token = generateToken(user._id, user.role);
 
-    // 6. Return token and user details (excluding password)
+    // 4. Return token and user details (excluding password)
     return res.status(200).json({
       token,
       _id: user._id,
