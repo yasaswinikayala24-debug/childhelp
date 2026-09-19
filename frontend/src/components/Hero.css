@@ -1,4 +1,4 @@
-/* Deep-Night Futuristic AI Hero Section Styling */
+/* Deep-Night Futuristic AI Hero Section Styling - Modern AI Typography */
 
 .futuristic-hero-container {
   position: relative;
@@ -11,7 +11,7 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   box-sizing: border-box;
 }
 
@@ -62,11 +62,12 @@
   justify-content: space-between;
 }
 
+/* ChildHelp AI Logo - Space Grotesk, weight 700 */
 .hero-brand {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.4rem;
   font-weight: 700;
   color: #ffffff;
@@ -97,11 +98,13 @@
 
 .brand-text {
   letter-spacing: -0.02em;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
 }
 
 .brand-accent {
   color: #818cf8;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .hero-desktop-nav {
@@ -118,7 +121,9 @@
   padding: 0;
 }
 
+/* Navigation - Inter, weight 500-600 */
 .hero-nav-link {
+  font-family: 'Inter', sans-serif;
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.95rem;
   font-weight: 500;
@@ -131,6 +136,7 @@
 .hero-nav-link:hover,
 .hero-nav-link.active {
   color: #ffffff;
+  font-weight: 600;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
@@ -154,6 +160,8 @@
 .btn-hero-nav {
   padding: 0.55rem 1.25rem;
   font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
 }
 
 /* Mobile Hamburger Toggle */
@@ -202,6 +210,7 @@
 }
 
 .mobile-nav-links a {
+  font-family: 'Inter', sans-serif;
   color: #e2e8f0;
   font-size: 1.1rem;
   font-weight: 500;
@@ -213,6 +222,8 @@
   margin-top: 0.5rem;
   text-align: center;
   display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
 }
 
 /* Main Hero Content Wrapper */
@@ -238,7 +249,7 @@
   animation: heroFadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Eyebrow Badge */
+/* Eyebrow Badge - Inter, weight 600, uppercase with slight letter spacing */
 .hero-eyebrow-badge {
   display: inline-flex;
   align-items: center;
@@ -263,16 +274,17 @@
 }
 
 .eyebrow-text {
+  font-family: 'Inter', sans-serif;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.12em;
   color: #cbd5e1;
   text-transform: uppercase;
 }
 
-/* Large Headline */
+/* Main Heading - Space Grotesk, weight 700-800 */
 .hero-headline {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 4.2rem;
   line-height: 1.12;
   font-weight: 800;
@@ -281,7 +293,10 @@
   margin-bottom: 1.6rem;
 }
 
+/* "Intelligent Systems" - Space Grotesk, weight 700-800, keep blue/purple gradient */
 .highlight-glow-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
   background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #38bdf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -290,14 +305,15 @@
   filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.45));
 }
 
-/* Supporting Text */
+/* Description - Inter, weight 400-500 */
 .hero-supporting-text {
+  font-family: 'Inter', sans-serif;
   font-size: 1.25rem;
   line-height: 1.65;
   color: #94a3b8;
   max-width: 680px;
   margin-bottom: 2.8rem;
-  font-weight: 400;
+  font-weight: 450;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -310,15 +326,16 @@
   flex-wrap: wrap;
 }
 
+/* Buttons - Inter, weight 600-700 */
 .btn-hero-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
   padding: 0.9rem 2.2rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 650;
   color: #ffffff;
   background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -354,7 +371,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.9rem 2.2rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: #f1f5f9;
@@ -375,7 +392,7 @@
   color: #ffffff;
 }
 
-/* Scroll Indicator */
+/* Scroll Indicator - Inter, weight 500-600, uppercase with increased letter spacing */
 .hero-scroll-indicator {
   margin-top: auto;
   padding-top: 2rem;
@@ -393,9 +410,10 @@
 }
 
 .scroll-label {
+  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   color: #94a3b8;
   text-transform: uppercase;
 }
@@ -464,7 +482,7 @@
   }
 }
 
-/* Responsive Media Queries */
+/* Responsive Typography Media Queries */
 @media (max-width: 1024px) {
   .hero-headline {
     font-size: 3.5rem;
@@ -516,5 +534,8 @@
 @media (max-width: 480px) {
   .hero-headline {
     font-size: 2.15rem;
+  }
+  .hero-supporting-text {
+    font-size: 0.98rem;
   }
 }
