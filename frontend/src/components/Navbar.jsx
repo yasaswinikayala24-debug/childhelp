@@ -15,6 +15,10 @@ const Navbar = ({ user, onLogout }) => {
     }
   };
 
+  if (location.pathname === '/') {
+    return null;
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-container">
