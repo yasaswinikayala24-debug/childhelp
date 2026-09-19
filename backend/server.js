@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const materialRoutes = require('./routes/materialRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -40,6 +41,9 @@ app.get('/', (req, res) => {
 
 // Authentication routes
 app.use('/api/auth', authRoutes);
+
+// Study Material routes
+app.use('/api/materials', materialRoutes);
 
 // Error handler for unknown routes
 app.use((req, res) => {

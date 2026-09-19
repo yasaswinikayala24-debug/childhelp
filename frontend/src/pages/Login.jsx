@@ -32,7 +32,7 @@ const Login = ({ onLoginSuccess }) => {
     setLoading(true);
 
     try {
-      const response = await API.post('/api/auth/login', {
+      const response = await API.post('/auth/login', {
         email: formData.email.trim().toLowerCase(),
         password: formData.password,
       });

@@ -1,21 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import API from '../services/api';
 
 const Dashboard = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(user || null);
+  const [materialCount, setMaterialCount] = useState(0);
   const [loading, setLoading] = useState(!user);
   const [apiError, setApiError] = useState('');
 
   useEffect(() => {
-    // Fetch profile from backend protected endpoint /api/auth/profile
-    const fetchProfile = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const response = await API.get('/api/auth/profile');
-        setProfile(response.data);
+        // 1. Fetch user profile from protected endpoint
+        const profileRes = await API.get('/auth/profile');
+        setProfile(profileRes.data);
+
+        // 2. Fetch materials count
+        const materialsRes = await API.get('/materials');
+        if (Array.isArray(materialsRes.data)) {
+          setMaterialCount(materialsRes.data.length);
+        }
       } catch (err) {
-        console.error('Failed to fetch protected profile:', err);
+        console.error('Failed to fetch protected profile or dashboard data:', err);
         setApiError('Session expired or invalid token. Please log in again.');
         handleLogout();
       } finally {
@@ -23,7 +30,7 @@ const Dashboard = ({ user, onLogout }) => {
       }
     };
 
-    fetchProfile();
+    fetchDashboardData();
   }, []);
 
   const handleLogout = () => {
@@ -36,7 +43,7 @@ const Dashboard = ({ user, onLogout }) => {
     }
   };
 
-  const userName = profile?.name || 'User';
+  const userName = profile?.name || 'Student';
   const userRole = profile?.role ? profile.role.charAt(0).toUpperCase() + profile.role.slice(1) : 'Student';
 
   return (
@@ -45,10 +52,11 @@ const Dashboard = ({ user, onLogout }) => {
       <div className="dashboard-header">
         <div>
           <h1 style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>
-            Welcome, {userName}! 👋
+            Welcome to ChildHelp 👋
           </h1>
-          <p style={{ color: 'var(--text-secondary)' }}>
-            Role: <strong style={{ color: 'var(--primary-color)' }}>{userRole}</strong>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem' }}>
+            Hello, <strong style={{ color: 'var(--text-primary)' }}>{userName}</strong>! | Role:{' '}
+            <strong style={{ color: 'var(--primary-color)' }}>{userRole}</strong>
           </p>
         </div>
 
@@ -61,61 +69,78 @@ const Dashboard = ({ user, onLogout }) => {
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '3rem' }}>
-          <h3>Loading dashboard profile...</h3>
+          <h3>Loading dashboard profile... ⏳</h3>
         </div>
       ) : (
         <>
-          <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Platform Modules</h2>
+          {/* Dashboard Quick Actions Bar */}
+          <div className="dashboard-action-banner" style={{ marginBottom: '2.5rem' }}>
+            <div className="banner-content">
+              <h2>Ready to Learn & Explore? 🚀</h2>
+              <p>Discover high-quality study materials, practice workbooks, and video tutorials.</p>
+            </div>
+            <div className="banner-buttons">
+              <Link to="/materials" className="btn btn-primary btn-lg">
+                📚 Study Materials
+              </Link>
+              <Link to="/materials" className="btn btn-secondary btn-lg">
+                ▶️ Continue Learning
+              </Link>
+            </div>
+          </div>
+
+          {/* Learning Statistics Grid */}
+          <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Learning Statistics & Dashboard</h2>
 
           <div className="dashboard-grid">
-            {/* 1. Study Materials */}
-            <div className="module-card">
-              <div className="module-icon">📚</div>
-              <h3 className="module-title">Study Materials</h3>
-              <p className="module-desc">
-                Access curated textbooks, practice sheets, and video tutorials for all grade levels.
-              </p>
-              <span className="module-badge">Phase 2 Module</span>
+            {/* 1. Available Materials */}
+            <div className="stat-card">
+              <div className="stat-icon" style={{ backgroundColor: '#e0e7ff', color: '#4f46e5' }}>
+                📚
+              </div>
+              <div className="stat-info">
+                <div className="stat-value">{materialCount}</div>
+                <div className="stat-label">Available Materials</div>
+              </div>
+              <Link to="/materials" className="stat-link">
+                Explore All →
+              </Link>
             </div>
 
-            {/* 2. Scholarships */}
-            <div className="module-card">
-              <div className="module-icon">🎓</div>
-              <h3 className="module-title">Scholarships</h3>
-              <p className="module-desc">
-                Explore eligible educational grants, financial support, and application deadlines.
-              </p>
-              <span className="module-badge">Phase 2 Module</span>
+            {/* 2. Completed Materials */}
+            <div className="stat-card">
+              <div className="stat-icon" style={{ backgroundColor: '#dcfce7', color: '#15803d' }}>
+                ✅
+              </div>
+              <div className="stat-info">
+                <div className="stat-value">3</div>
+                <div className="stat-label">Completed Materials</div>
+              </div>
+              <span className="stat-badge">Phase 2 Active</span>
             </div>
 
-            {/* 3. Quizzes */}
-            <div className="module-card">
-              <div className="module-icon">📝</div>
-              <h3 className="module-title">Quizzes</h3>
-              <p className="module-desc">
-                Interactive subject quizzes to test knowledge and earn performance badges.
-              </p>
-              <span className="module-badge">Phase 2 Module</span>
+            {/* 3. Saved Materials */}
+            <div className="stat-card">
+              <div className="stat-icon" style={{ backgroundColor: '#fef3c7', color: '#b45309' }}>
+                🔖
+              </div>
+              <div className="stat-info">
+                <div className="stat-value">5</div>
+                <div className="stat-label">Saved Materials</div>
+              </div>
+              <span className="stat-badge">Bookmarked</span>
             </div>
 
-            {/* 4. Doubts */}
-            <div className="module-card">
-              <div className="module-icon">💬</div>
-              <h3 className="module-title">Doubts</h3>
-              <p className="module-desc">
-                Ask questions directly to verified mentors and receive step-by-step solutions.
-              </p>
-              <span className="module-badge">Phase 2 Module</span>
-            </div>
-
-            {/* 5. Progress */}
-            <div className="module-card">
-              <div className="module-icon">📊</div>
-              <h3 className="module-title">Progress</h3>
-              <p className="module-desc">
-                Track learning statistics, quiz scores, and academic growth history.
-              </p>
-              <span className="module-badge">Phase 2 Module</span>
+            {/* 4. Learning Progress */}
+            <div className="stat-card">
+              <div className="stat-icon" style={{ backgroundColor: '#ccfbf1', color: '#0f766e' }}>
+                📊
+              </div>
+              <div className="stat-info">
+                <div className="stat-value">78%</div>
+                <div className="stat-label">Learning Progress</div>
+              </div>
+              <span className="stat-badge">On Track</span>
             </div>
           </div>
         </>

@@ -5,8 +5,13 @@ if (rawBaseURL && !rawBaseURL.startsWith('http://') && !rawBaseURL.startsWith('h
   rawBaseURL = `https://${rawBaseURL}`;
 }
 
+// Ensure baseURL ends with /api
+const baseURL = rawBaseURL.endsWith('/api')
+  ? rawBaseURL
+  : `${rawBaseURL.replace(/\/$/, '')}/api`;
+
 const API = axios.create({
-  baseURL: rawBaseURL,
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },

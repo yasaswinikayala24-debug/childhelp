@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import StudyMaterials from './pages/StudyMaterials';
+import MaterialDetails from './pages/MaterialDetails';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -42,7 +45,7 @@ function App() {
         {/* Public Landing Page */}
         <Route path="/" element={<Home />} />
 
-        {/* Login Page: Redirect to /dashboard if logged in */}
+        {/* Public Login Page (Redirects to /dashboard if already logged in) */}
         <Route
           path="/login"
           element={
@@ -54,7 +57,7 @@ function App() {
           }
         />
 
-        {/* Register Page: Redirect to /dashboard if logged in */}
+        {/* Public Register Page (Redirects to /dashboard if already logged in) */}
         <Route
           path="/register"
           element={
@@ -66,15 +69,33 @@ function App() {
           }
         />
 
-        {/* Protected Dashboard Route: Redirect to /login if not logged in */}
+        {/* Protected Dashboard Route */}
         <Route
           path="/dashboard"
           element={
-            user ? (
+            <ProtectedRoute>
               <Dashboard user={user} onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected Study Materials Explorer Route */}
+        <Route
+          path="/materials"
+          element={
+            <ProtectedRoute>
+              <StudyMaterials />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected Material Details Route */}
+        <Route
+          path="/materials/:id"
+          element={
+            <ProtectedRoute>
+              <MaterialDetails />
+            </ProtectedRoute>
           }
         />
 
