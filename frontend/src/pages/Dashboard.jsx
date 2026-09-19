@@ -42,7 +42,7 @@ const Dashboard = ({ user, onLogout }) => {
   return (
     <main className="main-content">
       {/* Welcome Banner */}
-      <div className="dashboard-header">
+      <div className="dashboard-header" style={{ marginBottom: '2rem' }}>
         <div>
           <h1 style={{ fontSize: '2.2rem', marginBottom: '0.4rem' }}>
             Welcome, {userName}! 👋
@@ -57,7 +57,7 @@ const Dashboard = ({ user, onLogout }) => {
         </button>
       </div>
 
-      {apiError && <div className="alert alert-danger">{apiError}</div>}
+      {apiError && <div className="alert alert-danger" style={{ marginBottom: '1.5rem' }}>{apiError}</div>}
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '3rem' }}>
@@ -65,17 +65,78 @@ const Dashboard = ({ user, onLogout }) => {
         </div>
       ) : (
         <>
+          {/* Phase 2 Learning Overview Section */}
+          <div
+            style={{
+              background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+              color: '#ffffff',
+              padding: '2rem 2.5rem',
+              borderRadius: '16px',
+              marginBottom: '2.5rem',
+              boxShadow: '0 8px 25px rgba(99, 102, 241, 0.35)',
+            }}
+          >
+            <h2 style={{ color: '#ffffff', fontSize: '1.8rem', marginBottom: '1rem', fontWeight: '800' }}>
+              Learning Overview
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                gap: '2rem',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: '700' }}>📚 Study Materials</div>
+                  <div style={{ opacity: 0.9, fontSize: '0.95rem' }}>Available Resources</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: '700' }}>📖 Subjects</div>
+                  <div style={{ opacity: 0.9, fontSize: '0.95rem' }}>Explore &amp; Learn</div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate('/materials')}
+                className="btn btn-secondary"
+                style={{
+                  padding: '0.75rem 1.8rem',
+                  fontWeight: '700',
+                  borderRadius: '10px',
+                  background: '#14b8a6',
+                  border: 'none',
+                  color: '#ffffff',
+                  boxShadow: '0 4px 14px rgba(20, 184, 166, 0.4)',
+                  cursor: 'pointer',
+                  marginLeft: 'auto',
+                }}
+              >
+                Explore Study Materials
+              </button>
+            </div>
+          </div>
+
+          {/* Platform Modules */}
           <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Platform Modules</h2>
 
           <div className="dashboard-grid">
-            {/* 1. Study Materials */}
-            <div className="module-card">
+            {/* 1. Study Materials (Active in Phase 2) */}
+            <div className="module-card" style={{ border: '2px solid #6366f1' }}>
               <div className="module-icon">📚</div>
               <h3 className="module-title">Study Materials</h3>
               <p className="module-desc">
                 Access curated textbooks, practice sheets, and video tutorials for all grade levels.
               </p>
-              <span className="module-badge">Coming Soon</span>
+              <button
+                onClick={() => navigate('/materials')}
+                className="btn btn-primary"
+                style={{ width: '100%', marginTop: '1rem', padding: '0.55rem' }}
+              >
+                Explore Study Materials
+              </button>
             </div>
 
             {/* 2. Scholarships */}

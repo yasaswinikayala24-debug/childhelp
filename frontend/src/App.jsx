@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import StudyMaterials from './pages/StudyMaterials';
+import MaterialDetails from './pages/MaterialDetails';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -66,12 +68,36 @@ function App() {
           }
         />
 
-        {/* Protected Dashboard Route: Redirect to /login if not logged in */}
+        {/* Protected Dashboard Route */}
         <Route
           path="/dashboard"
           element={
             user ? (
               <Dashboard user={user} onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Protected Study Materials Route */}
+        <Route
+          path="/materials"
+          element={
+            user ? (
+              <StudyMaterials />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+
+        {/* Protected Material Details Route */}
+        <Route
+          path="/materials/:id"
+          element={
+            user ? (
+              <MaterialDetails />
             ) : (
               <Navigate to="/login" replace />
             )
