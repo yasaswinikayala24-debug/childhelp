@@ -24,9 +24,9 @@ const Home = () => {
           </div>
 
           <div className="hero-card-illustration">
-            <img src="/hero-bg.jpg" alt="Child Learning Illustration" className="hero-img-preview" />
+            <div className="illustration-icon">🚀</div>
             <h2>Bright Futures Start Here</h2>
-            <p style={{ marginTop: '0.6rem', opacity: 0.9, color: '#cbd5e1' }}>
+            <p style={{ marginTop: '0.8rem', opacity: 0.9, color: '#cbd5e1' }}>
               Join thousands of students and mentors creating a brighter educational ecosystem together.
             </p>
           </div>

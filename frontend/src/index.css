@@ -245,29 +245,22 @@ a {
   grid-template-columns: 1.1fr 0.9fr;
   gap: 3.5rem;
   align-items: center;
-  padding: 4.5rem 3rem;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(9, 12, 21, 0.85) 0%, rgba(15, 23, 42, 0.78) 100%), url('/hero-bg.jpg') center/cover no-repeat;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--shadow-glow);
-  position: relative;
-  overflow: hidden;
-  margin-top: 1rem;
+  padding: 4.5rem 0 3.5rem 0;
 }
 
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(99, 102, 241, 0.25);
-  border: 1px solid rgba(129, 140, 248, 0.4);
+  background: rgba(99, 102, 241, 0.18);
+  border: 1px solid rgba(129, 140, 248, 0.3);
   color: #a5b4fc;
   padding: 0.45rem 1.2rem;
   border-radius: 50px;
   font-weight: 600;
   font-size: 0.88rem;
   margin-bottom: 1.4rem;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
 }
 
 .hero-title {
@@ -282,11 +275,10 @@ a {
 
 .hero-subtitle {
   font-size: 1.2rem;
-  color: #cbd5e1;
+  color: #94a3b8;
   margin-bottom: 2.2rem;
   line-height: 1.7;
   max-width: 580px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-cta {
@@ -296,9 +288,9 @@ a {
 }
 
 .hero-card-illustration {
-  background: rgba(15, 23, 42, 0.75);
+  background: var(--surface-dark);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: 3rem 2rem;
   color: #ffffff;
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(16px);
@@ -306,22 +298,11 @@ a {
   text-align: center;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
 }
 
 .hero-card-illustration:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(99, 102, 241, 0.45);
-}
-
-.hero-img-preview {
-  width: 100%;
-  max-height: 220px;
-  object-fit: cover;
-  border-radius: var(--radius-md);
-  margin-bottom: 1.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .illustration-icon {
