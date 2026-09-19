@@ -15,11 +15,6 @@ const Navbar = ({ user, onLogout }) => {
     }
   };
 
-  // If home page with full screen landing, we still present navbar
-  if (location.pathname === '/') {
-    return null;
-  }
-
   return (
     <header className="navbar">
       <div className="navbar-container">
@@ -38,16 +33,17 @@ const Navbar = ({ user, onLogout }) => {
                 Home
               </Link>
             </li>
-            {user && (
+            <li>
+              <Link
+                to="/about"
+                className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+              >
+                About
+              </Link>
+            </li>
+
+            {user ? (
               <>
-                <li>
-                  <Link
-                    to="/dashboard"
-                    className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
-                  >
-                    Dashboard
-                  </Link>
-                </li>
                 <li>
                   <Link
                     to="/materials"
@@ -58,14 +54,14 @@ const Navbar = ({ user, onLogout }) => {
                 </li>
                 <li>
                   <Link
-                    to="/my-learning"
-                    className={`nav-link ${location.pathname === '/my-learning' ? 'active' : ''}`}
+                    to="/dashboard"
+                    className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}
                   >
-                    My Learning
+                    Dashboard
                   </Link>
                 </li>
               </>
-            )}
+            ) : null}
           </ul>
         </nav>
 

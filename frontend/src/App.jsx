@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -42,8 +43,9 @@ function App() {
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
       <Routes>
-        {/* Public Landing Page */}
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
 
         {/* Login Page: Redirect to /dashboard if logged in */}
         <Route
