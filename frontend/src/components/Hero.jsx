@@ -85,48 +85,34 @@ const Hero = () => {
         )}
       </header>
 
-      {/* Main Hero Content Grid */}
+      {/* Main Hero Content (Centered, No Right Card) */}
       <div className="hero-content-wrapper">
-        <div className="hero-main-grid">
-          {/* Left Column */}
-          <div className="hero-left-content">
-            {/* Eyebrow Badge */}
-            <div className="hero-eyebrow-badge">
-              <span className="badge-icon">🎓</span>
-              <span className="eyebrow-text">Educational Empowerment Platform</span>
-            </div>
-
-            {/* Headline */}
-            <h1 className="hero-headline">
-              One Platform for <br className="desktop-br" />
-              Children's Education &amp; Support
-            </h1>
-
-            {/* Subtitle */}
-            <p className="hero-supporting-text">
-              ChildHelp bridges the gap between eager young learners and quality educational opportunities. Access free learning materials, discover scholarships, and connect with dedicated mentors.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="hero-button-group">
-              <Link to="/register" className="btn-hero-cta-primary">
-                Get Started Free
-              </Link>
-              <Link to="/login" className="btn-hero-cta-secondary">
-                Member Login
-              </Link>
-            </div>
+        <div className="hero-center-content">
+          {/* Eyebrow Badge */}
+          <div className="hero-eyebrow-badge">
+            <span className="badge-icon">🎓</span>
+            <span className="eyebrow-text">Educational Empowerment Platform</span>
           </div>
 
-          {/* Right Column Gradient Card */}
-          <div className="hero-right-content">
-            <div className="hero-gradient-card">
-              <div className="card-rocket-icon">🚀</div>
-              <h2 className="card-title">Bright Futures Start Here</h2>
-              <p className="card-description">
-                Join thousands of students and mentors creating a brighter educational ecosystem together.
-              </p>
-            </div>
+          {/* Headline */}
+          <h1 className="hero-headline">
+            One Platform for <br className="desktop-br" />
+            Children's Education &amp; Support
+          </h1>
+
+          {/* Subtitle */}
+          <p className="hero-supporting-text">
+            ChildHelp bridges the gap between eager young learners and quality educational opportunities. Access free learning materials, discover scholarships, and connect with dedicated mentors.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="hero-button-group">
+            <Link to="/register" className="btn-hero-cta-primary">
+              Get Started Free
+            </Link>
+            <Link to="/login" className="btn-hero-cta-secondary">
+              Member Login
+            </Link>
           </div>
         </div>
       </div>
