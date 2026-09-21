@@ -89,7 +89,7 @@ const Register = () => {
         navigate('/login');
       }, 1500);
     } catch (error) {
-      const msg = error.response?.data?.message || 'Registration failed. Please check your details and try again.';
+      const msg = error.response?.data?.message || error.message || 'Registration failed. Please check your details and try again.';
       setErrorMessage(msg);
     } finally {
       setLoading(false);

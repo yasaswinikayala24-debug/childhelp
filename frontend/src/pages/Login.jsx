@@ -54,6 +54,7 @@ const Login = ({ onLoginSuccess }) => {
     } catch (error) {
       const msg =
         error.response?.data?.message ||
+        error.message ||
         'Invalid credentials or server error. Please try again.';
       setErrorMessage(msg);
     } finally {
