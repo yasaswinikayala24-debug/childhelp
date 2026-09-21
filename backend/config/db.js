@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+const generateHexId = () => {
+  const timestamp = Math.floor(Date.now() / 1000).toString(16).padStart(8, '0');
+  const randomHex = Array.from({ length: 16 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+  return timestamp + randomHex;
+};
+
 const setupInMemoryStore = () => {
   console.log('Enabling local in-memory fallback for MongoDB models...');
   const User = require('../models/User');
@@ -21,7 +27,7 @@ const setupInMemoryStore = () => {
       ];
       sampleUsers.forEach((u) => {
         usersStore.set(u.email.toLowerCase(), {
-          _id: 'seed_' + Math.random().toString(36).substring(2, 10),
+          _id: generateHexId(),
           ...u,
           createdAt: new Date(),
         });
@@ -66,7 +72,7 @@ const setupInMemoryStore = () => {
   User.create = function (doc) {
     const cleanEmail = doc.email.toLowerCase().trim();
     const newUser = {
-      _id: 'usr_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      _id: generateHexId(),
       name: doc.name,
       email: cleanEmail,
       password: doc.password,
