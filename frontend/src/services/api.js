@@ -2,7 +2,8 @@ import axios from 'axios';
 
 let rawBaseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 if (rawBaseURL && !rawBaseURL.startsWith('http://') && !rawBaseURL.startsWith('https://')) {
-  rawBaseURL = `http://${rawBaseURL}`;
+  const isLocal = rawBaseURL.includes('localhost') || rawBaseURL.includes('127.0.0.1');
+  rawBaseURL = isLocal ? `http://${rawBaseURL}` : `https://${rawBaseURL}`;
 }
 
 const API = axios.create({
