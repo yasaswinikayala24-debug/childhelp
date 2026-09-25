@@ -13,6 +13,7 @@ const recommendationRoutes = require('./routes/recommendationRoutes');
 const quizRoutes = require('./routes/quizRoutes');
 const quizAttemptRoutes = require('./routes/quizAttemptRoutes');
 const Quiz = require('./models/Quiz');
+const Material = require('./models/Material');
 
 // Load environment variables
 dotenv.config();
@@ -93,8 +94,82 @@ connectDB().then(async () => {
       ]);
       console.log('Seeded initial test quizzes');
     }
+
+    // Seed initial study materials if collection is empty
+    const materialCount = await Material.countDocuments();
+    if (materialCount === 0) {
+      await Material.create([
+        {
+          title: 'Mathematics Grade 10: Linear Equations & Algebra',
+          description: 'Comprehensive guide covering linear equations, quadratic formulas, and algebraic expressions with step-by-step solved examples.',
+          subject: 'Mathematics',
+          classLevel: '10',
+          type: 'PDF',
+          resourceUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          difficulty: 'Intermediate',
+          estimatedTime: 25,
+          keywords: ['algebra', 'equations', 'math', 'grade 10'],
+        },
+        {
+          title: 'Physics Fundamentals: Laws of Motion & Energy',
+          description: 'Master Newton\'s laws of motion, kinetic energy calculations, and real-world physical force demonstrations.',
+          subject: 'Science',
+          classLevel: '10',
+          type: 'ARTICLE',
+          resourceUrl: 'https://en.wikipedia.org/wiki/Newton%27s_laws_of_motion',
+          difficulty: 'Beginner',
+          estimatedTime: 20,
+          keywords: ['physics', 'motion', 'force', 'energy'],
+        },
+        {
+          title: 'Basic Python Programming for Beginners',
+          description: 'Learn Python syntax, variables, conditionals, loops, and basic data structures with hands-on coding exercises.',
+          subject: 'Programming',
+          classLevel: '10',
+          type: 'VIDEO',
+          resourceUrl: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc',
+          difficulty: 'Beginner',
+          estimatedTime: 30,
+          keywords: ['python', 'coding', 'programming', 'basics'],
+        },
+        {
+          title: 'English Grammar & Essay Writing Masterclass',
+          description: 'Improve reading comprehension, vocabulary, paragraph structure, and narrative essay writing skills.',
+          subject: 'English',
+          classLevel: '9',
+          type: 'PDF',
+          resourceUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          difficulty: 'Beginner',
+          estimatedTime: 15,
+          keywords: ['english', 'grammar', 'essay', 'writing'],
+        },
+        {
+          title: 'Chemistry Basics: Periodic Table & Chemical Bonds',
+          description: 'Explore atomic structures, elements of the periodic table, ionic and covalent chemical bonding principles.',
+          subject: 'Science',
+          classLevel: '9',
+          type: 'ARTICLE',
+          resourceUrl: 'https://en.wikipedia.org/wiki/Periodic_table',
+          difficulty: 'Intermediate',
+          estimatedTime: 20,
+          keywords: ['chemistry', 'periodic table', 'atoms', 'bonds'],
+        },
+        {
+          title: 'Data Structures & Algorithms Overview',
+          description: 'Introduction to Arrays, Linked Lists, Stacks, Queues, Binary Trees, and sorting algorithms.',
+          subject: 'Computer Science',
+          classLevel: '11',
+          type: 'PDF',
+          resourceUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+          difficulty: 'Advanced',
+          estimatedTime: 40,
+          keywords: ['algorithms', 'data structures', 'trees', 'arrays'],
+        },
+      ]);
+      console.log('Seeded initial study materials');
+    }
   } catch (err) {
-    console.error('Error seeding test quizzes:', err);
+    console.error('Error seeding test data:', err);
   }
 });
 

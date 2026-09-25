@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getOverallProgress, getProgressByMaterial, updateProgress } = require('../controllers/progressController');
+const { getOverallProgress, getAllProgressSummary, getProgressByMaterial, updateProgress } = require('../controllers/progressController');
 const { protect } = require('../middleware/authMiddleware');
 
 router.use(protect);
 
 router.get('/', getOverallProgress);
+router.get('/all', getAllProgressSummary);
 router.get('/:materialId', getProgressByMaterial);
 router.put('/:materialId', updateProgress);
 

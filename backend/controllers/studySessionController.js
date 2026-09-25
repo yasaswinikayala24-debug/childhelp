@@ -116,10 +116,13 @@ const getSummary = async (req, res) => {
 
     res.json({
       totalSeconds,
+      totalStudyMinutes: Math.floor(totalSeconds / 60),
       formattedStudyTime,
       streakDays,
       weeklyChecklist,
+      totalSessions: sessions.length,
       totalSessionsCount: sessions.length,
+      recentSessions: sessions.slice(-5).reverse(),
     });
   } catch (error) {
     console.error('Error fetching study session summary:', error.message);

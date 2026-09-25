@@ -96,8 +96,49 @@ const updateProgress = async (req, res) => {
   }
 };
 
+// @desc    Get user's overall learning progress summary (stats, inProgress, completed)
+// @route   GET /api/progress/all
+// @access  Protected
+const getAllProgressSummary = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const progressRecords = await LearningProgress.find({ user: userId })
+      .populate('material')
+      .sort({ lastAccessed: -1 });
+
+    const completed = progressRecords.filter((p) => p.completed);
+    const inProgress = progressRecords.filter((p) => !p.completed);
+
+    const totalMaterialsEnrolled = progressRecords.length;
+    const completedMaterialsCount = completed.length;
+    const inProgressMaterialsCount = inProgress.length;
+
+    const totalPercentageSum = progressRecords.reduce((acc, p) => acc + (p.progressPercentage || 0), 0);
+    const overallProgressPercentage = totalMaterialsEnrolled > 0
+      ? Math.round(totalPercentageSum / totalMaterialsEnrolled)
+      : 0;
+
+    res.json({
+      overallStats: {
+        totalMaterialsEnrolled,
+        completedMaterialsCount,
+        inProgressMaterialsCount,
+        overallProgressPercentage,
+      },
+      inProgress,
+      completed,
+      all: progressRecords,
+    });
+  } catch (error) {
+    console.error('Error fetching all progress summary:', error.message);
+    res.status(500).json({ message: 'Server error fetching progress' });
+  }
+};
+
 module.exports = {
   getOverallProgress,
+  getAllProgressSummary,
   getProgressByMaterial,
   updateProgress,
 };

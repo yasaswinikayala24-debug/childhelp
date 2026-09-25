@@ -8,5 +8,6 @@ router.use(protect);
 router.post('/start', startSession);
 router.post('/end', endSession);
 router.get('/summary', getSummary);
+router.get('/user-stats', getSummary);
 
 module.exports = router;
