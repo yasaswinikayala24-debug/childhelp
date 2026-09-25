@@ -52,10 +52,14 @@ const Login = ({ onLoginSuccess }) => {
       // Redirect to Dashboard
       navigate('/dashboard');
     } catch (error) {
-      const msg =
+      let msg =
         error.response?.data?.message ||
         error.message ||
         'Invalid credentials or server error. Please try again.';
+
+      if (!error.response && (error.message === 'Network Error' || error.code === 'ERR_NETWORK')) {
+        msg = 'Network Error: Cannot reach the server. Please ensure the backend server is running on port 5000.';
+      }
       setErrorMessage(msg);
     } finally {
       setLoading(false);
