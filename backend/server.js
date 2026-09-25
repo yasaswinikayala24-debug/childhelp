@@ -195,26 +195,48 @@ app.use(
     credentials: true,
   })
 );
+app.options('*', cors());
 app.use(express.json());
 
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({ message: 'ChildHelp API is running' });
 });
+app.get('/api', (req, res) => {
+  res.json({ message: 'ChildHelp API is running' });
+});
 
-// Authentication & Core API routes
+// Authentication & Core API routes (supporting both /api/* and /* paths)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
+
 app.use('/api/materials', materialRoutes);
+app.use('/materials', materialRoutes);
+
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/bookmarks', bookmarkRoutes);
+
 app.use('/api/notes', noteRoutes);
+app.use('/notes', noteRoutes);
+
 app.use('/api/progress', progressRoutes);
+app.use('/progress', progressRoutes);
+
 app.use('/api/study-sessions', studySessionRoutes);
+app.use('/study-sessions', studySessionRoutes);
+
 app.use('/api/goals', goalRoutes);
+app.use('/goals', goalRoutes);
+
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/recommendations', recommendationRoutes);
 
 // Phase 3 Quiz & Progress routes
 app.use('/api/quizzes', quizRoutes);
+app.use('/quizzes', quizRoutes);
+
 app.use('/api/quiz-attempts', quizAttemptRoutes);
+app.use('/quiz-attempts', quizAttemptRoutes);
 
 // Error handler for unknown routes
 app.use((req, res) => {
