@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let rawBaseURL = import.meta.env.VITE_API_BASE_URL || '';
+let rawBaseURL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || '';
 if (rawBaseURL && !rawBaseURL.startsWith('http://') && !rawBaseURL.startsWith('https://')) {
   const isLocal = rawBaseURL.includes('localhost') || rawBaseURL.includes('127.0.0.1');
   rawBaseURL = isLocal ? `http://${rawBaseURL}` : `https://${rawBaseURL}`;
