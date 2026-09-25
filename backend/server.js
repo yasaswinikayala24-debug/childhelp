@@ -15,7 +15,10 @@ const quizAttemptRoutes = require('./routes/quizAttemptRoutes');
 const Quiz = require('./models/Quiz');
 const Material = require('./models/Material');
 
-// Load environment variables
+const path = require('path');
+
+// Load environment variables from backend/.env and root .env
+dotenv.config({ path: path.join(__dirname, '.env') });
 dotenv.config();
 
 // Connect to MongoDB
