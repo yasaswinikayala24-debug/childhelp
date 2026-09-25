@@ -90,33 +90,16 @@ const loginUser = async (req, res) => {
     const cleanEmail = email.toLowerCase().trim();
 
     // 1. Find user by email
-    let user = await User.findOne({ email: cleanEmail });
+    const user = await User.findOne({ email: cleanEmail });
 
-    // 2. If user does not exist yet, auto-create account on the fly for seamless login access!
     if (!user) {
-      const emailPrefix = cleanEmail.split('@')[0];
-      const derivedName =
-        emailPrefix
-          .replace(/[\._\-\d]+/g, ' ')
-          .trim()
-          .replace(/\b\w/g, (c) => c.toUpperCase()) || 'Student User';
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-
-      user = await User.create({
-        name: derivedName,
-        email: cleanEmail,
-        password: hashedPassword,
-        role: 'student',
-      });
-      console.log(`Auto-created user account on login for: ${cleanEmail}`);
-    } else {
-      // Compare password for existing user
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(401).json({ message: 'Invalid password' });
-      }
+    // 2. Compare password for existing user
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     // 3. Generate JWT with user id and role
