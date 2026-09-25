@@ -16,11 +16,12 @@ const generateToken = (id, role) => {
 // @access  Public
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, fullName, email, password, role } = req.body;
+    const userName = (name || fullName || '').trim();
 
     // 1. Validate required fields
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Please provide all required fields: name, email, and password' });
+    if (!userName || !email || !password) {
+      return res.status(400).json({ message: 'Please provide all required fields: name/fullName, email, and password' });
     }
 
     // Email format validation check
@@ -37,10 +38,10 @@ const registerUser = async (req, res) => {
     const allowedRoles = ['student', 'mentor'];
     const userRole = role && allowedRoles.includes(role.toLowerCase()) ? role.toLowerCase() : 'student';
 
-    // 2. Check whether email already exists
+    // 2. Check whether email already exists (HTTP 409 Conflict)
     const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists. Please log in.' });
+      return res.status(409).json({ message: 'User with this email already exists. Please log in.' });
     }
 
     // 3. Hash password using bcryptjs
@@ -49,7 +50,7 @@ const registerUser = async (req, res) => {
 
     // 4. Save user to MongoDB
     const user = await User.create({
-      name: name.trim(),
+      name: userName,
       email: email.toLowerCase().trim(),
       password: hashedPassword,
       role: userRole,
