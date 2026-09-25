@@ -207,7 +207,7 @@ const Dashboard = ({ user, onLogout }) => {
                 AVERAGE / BEST SCORE
               </div>
               <div style={{ fontSize: '2.2rem', fontWeight: '800', marginTop: '0.2rem' }}>
-                {averagePercentage}% <span style={{ fontSize: '1.1rem', opacity: 0.9 }}>/ {bestScore}%</span>
+                {averageScore}% <span style={{ fontSize: '1.1rem', opacity: 0.9 }}>/ {bestScore}%</span>
               </div>
               <div style={{ fontSize: '0.85rem', opacity: 0.9, marginTop: '0.2rem' }}>
                 🏆 Best: {bestScore}%

@@ -145,8 +145,22 @@ const setupInMemoryStore = () => {
 };
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+  // If running on Vercel without a remote MONGO_URI, activate in-memory fallback immediately
+  const isVercel = !!process.env.VERCEL || process.env.NODE_ENV === 'production';
+  const mongoUri = process.env.MONGO_URI;
+  const isLocalUri = !mongoUri || mongoUri.includes('127.0.0.1') || mongoUri.includes('localhost');
+
+  if (isVercel && isLocalUri) {
+    console.warn('Vercel environment detected without remote MONGO_URI. Activating resilient local storage.');
+    setupInMemoryStore();
+    return;
+  }
+
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/childhelp', {
+    const conn = await mongoose.connect(mongoUri || 'mongodb://127.0.0.1:27017/childhelp', {
       dbName: 'childhelp',
       serverSelectionTimeoutMS: 3000,
     });

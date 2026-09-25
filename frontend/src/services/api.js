@@ -6,6 +6,13 @@ if (rawBaseURL && !rawBaseURL.startsWith('http://') && !rawBaseURL.startsWith('h
   rawBaseURL = isLocal ? `http://${rawBaseURL}` : `https://${rawBaseURL}`;
 }
 
+// Strip trailing /api or /api/ from base URL to prevent double /api/api paths
+if (rawBaseURL.endsWith('/api')) {
+  rawBaseURL = rawBaseURL.slice(0, -4);
+} else if (rawBaseURL.endsWith('/api/')) {
+  rawBaseURL = rawBaseURL.slice(0, -5);
+}
+
 const API = axios.create({
   baseURL: rawBaseURL,
   headers: {
