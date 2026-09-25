@@ -5,7 +5,15 @@ import ProgressBar from '../components/ProgressBar';
 
 const Dashboard = ({ user, onLogout }) => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(user || null);
+  const [profile, setProfile] = useState(() => {
+    if (user) return user;
+    try {
+      const saved = localStorage.getItem('childhelp_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState('');
 
@@ -16,6 +24,10 @@ const Dashboard = ({ user, onLogout }) => {
   const [recentMaterials, setRecentMaterials] = useState([]);
 
   useEffect(() => {
+    if (user) setProfile(user);
+  }, [user]);
+
+  useEffect(() => {
     fetchDashboardData();
   }, []);
 
@@ -23,7 +35,10 @@ const Dashboard = ({ user, onLogout }) => {
     setLoading(true);
     try {
       const profileRes = await API.get('/api/auth/profile').catch(() => null);
-      if (profileRes?.data) setProfile(profileRes.data);
+      if (profileRes?.data) {
+        setProfile(profileRes.data);
+        localStorage.setItem('childhelp_user', JSON.stringify(profileRes.data));
+      }
 
       const [matRes, quizRes, attRes, progRes] = await Promise.all([
         API.get('/api/materials').catch(() => ({ data: [] })),
@@ -102,42 +117,36 @@ const Dashboard = ({ user, onLogout }) => {
 
       {apiError && <div className="alert alert-warning" style={{ marginBottom: '1.5rem' }}>{apiError}</div>}
 
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: '4rem' }}>
-          <h3>Loading dashboard metrics...</h3>
+      {/* Top Metrics Cards Grid */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '1.25rem',
+          marginBottom: '2.5rem',
+        }}
+      >
+        {/* 1. Available Study Materials */}
+        <div
+          className="card"
+          style={{
+            padding: '1.4rem',
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+            color: '#ffffff',
+            boxShadow: '0 6px 20px rgba(99, 102, 241, 0.25)',
+          }}
+        >
+          <div style={{ fontSize: '0.8rem', opacity: 0.85, fontWeight: '700', textTransform: 'uppercase' }}>
+            STUDY MATERIALS
+          </div>
+          <div style={{ fontSize: '2.2rem', fontWeight: '800', marginTop: '0.2rem' }}>
+            {loading ? '...' : materialsCount}
+          </div>
+          <div style={{ fontSize: '0.85rem', opacity: 0.9, marginTop: '0.2rem' }}>
+            Available Resources
+          </div>
         </div>
-      ) : (
-        <>
-          {/* Top Metrics Cards Grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '1.25rem',
-              marginBottom: '2.5rem',
-            }}
-          >
-            {/* 1. Available Study Materials */}
-            <div
-              className="card"
-              style={{
-                padding: '1.4rem',
-                borderRadius: '16px',
-                background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-                color: '#ffffff',
-                boxShadow: '0 6px 20px rgba(99, 102, 241, 0.25)',
-              }}
-            >
-              <div style={{ fontSize: '0.8rem', opacity: 0.85, fontWeight: '700', textTransform: 'uppercase' }}>
-                STUDY MATERIALS
-              </div>
-              <div style={{ fontSize: '2.2rem', fontWeight: '800', marginTop: '0.2rem' }}>
-                {materialsCount}
-              </div>
-              <div style={{ fontSize: '0.85rem', opacity: 0.9, marginTop: '0.2rem' }}>
-                Available Resources
-              </div>
-            </div>
 
             {/* 2. Available Quizzes */}
             <div
@@ -352,8 +361,6 @@ const Dashboard = ({ user, onLogout }) => {
               <span className="module-badge">Upcoming</span>
             </div>
           </div>
-        </>
-      )}
     </main>
   );
 };
