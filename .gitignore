@@ -16,6 +16,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# System files
+# System files & archives
 .DS_Store
 Thumbs.db
+*.zip
+
