@@ -171,6 +171,54 @@ connectDB().then(async () => {
       ]);
       console.log('Seeded initial study materials');
     }
+
+    // Seed initial scholarships if collection is empty
+    const scholarshipCount = await Scholarship.countDocuments();
+    if (scholarshipCount === 0) {
+      await Scholarship.create([
+        {
+          title: 'National Merit STEM Scholarship 2026',
+          description: 'Financial award for outstanding grade 9-12 students excelling in Mathematics, Science, and Technology.',
+          provider: 'National Science Foundation',
+          eligibility: 'Class 9 to 12 students with minimum 80% aggregate',
+          classLevel: 'Class 10',
+          deadline: '30 Nov 2026',
+          applicationUrl: 'https://www.scholarships.gov.in',
+          category: 'STEM',
+        },
+        {
+          title: 'ChildHelp Higher Education Support Grant',
+          description: 'Full tuition assistance grant for promising underprivileged students pursuing higher secondary education.',
+          provider: 'ChildHelp Educational Trust',
+          eligibility: 'All students with household income below 2.5 LPA',
+          classLevel: 'All Classes',
+          deadline: '15 Dec 2026',
+          applicationUrl: 'https://childhelp.org/scholarships',
+          category: 'Need-Based',
+        },
+      ]);
+      console.log('Seeded initial scholarships');
+    }
+
+    // Seed initial announcements if collection is empty
+    const announcementCount = await Announcement.countDocuments();
+    if (announcementCount === 0) {
+      await Announcement.create([
+        {
+          title: '🎉 Phase 3 Assessment & Progress Tracking Live!',
+          message: 'Explore new interactive subject quizzes, view instant score evaluations, and track your learning progress on your dashboard.',
+          category: 'System',
+          authorName: 'ChildHelp Academic Team',
+        },
+        {
+          title: '📢 Weekly Mentor Doubt Solving Sessions Available',
+          message: 'Submit your subject questions under Mentor Support to receive step-by-step guidance from verified educators.',
+          category: 'Academic',
+          authorName: 'Dr. Vikram Sarabhai',
+        },
+      ]);
+      console.log('Seeded initial announcements');
+    }
   } catch (err) {
     console.error('Error seeding test data:', err);
   }
@@ -209,6 +257,12 @@ app.get('/api', (req, res) => {
   res.json({ message: 'ChildHelp API is running' });
 });
 
+const scholarshipRoutes = require('./routes/scholarshipRoutes');
+const questionRoutes = require('./routes/questionRoutes');
+const announcementRoutes = require('./routes/announcementRoutes');
+const Scholarship = require('./models/Scholarship');
+const Announcement = require('./models/Announcement');
+
 // Authentication & Core API routes (supporting both /api/* and /* paths)
 app.use('/api/auth', authRoutes);
 app.use('/auth', authRoutes);
@@ -234,12 +288,22 @@ app.use('/goals', goalRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/recommendations', recommendationRoutes);
 
-// Phase 3 Quiz & Progress routes
+// Quiz & Progress routes
 app.use('/api/quizzes', quizRoutes);
 app.use('/quizzes', quizRoutes);
 
 app.use('/api/quiz-attempts', quizAttemptRoutes);
 app.use('/quiz-attempts', quizAttemptRoutes);
+
+// Scholarships, Mentor Questions & Announcements routes
+app.use('/api/scholarships', scholarshipRoutes);
+app.use('/scholarships', scholarshipRoutes);
+
+app.use('/api/questions', questionRoutes);
+app.use('/questions', questionRoutes);
+
+app.use('/api/announcements', announcementRoutes);
+app.use('/announcements', announcementRoutes);
 
 // Error handler for unknown routes
 app.use((req, res) => {

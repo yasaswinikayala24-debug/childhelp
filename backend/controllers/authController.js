@@ -135,8 +135,40 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+// @desc    Get all users (Admin only)
+// @route   GET /api/auth/users
+// @access  Private/Admin
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error('Get All Users Error:', error.message);
+    return res.status(500).json({ message: 'Server error retrieving users' });
+  }
+};
+
+// @desc    Delete a user (Admin only)
+// @route   DELETE /api/auth/users/:id
+// @access  Private/Admin
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    await user.deleteOne();
+    return res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Delete User Error:', error.message);
+    return res.status(500).json({ message: 'Server error deleting user' });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
+  getAllUsers,
+  deleteUser,
 };

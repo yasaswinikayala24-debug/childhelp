@@ -39,13 +39,15 @@ const setupInMemoryStore = () => {
 
   const User = require('../models/User');
 
-  // Safely reference secondary models if they exist
-  let Quiz, QuizAttempt, Bookmark, LearningProgress, Material;
+  let Quiz, QuizAttempt, Bookmark, LearningProgress, Material, Scholarship, Question, Announcement;
   try { Quiz = require('../models/Quiz'); } catch (e) {}
   try { QuizAttempt = require('../models/QuizAttempt'); } catch (e) {}
   try { Bookmark = require('../models/Bookmark'); } catch (e) {}
   try { LearningProgress = require('../models/LearningProgress'); } catch (e) {}
   try { Material = require('../models/Material'); } catch (e) {}
+  try { Scholarship = require('../models/Scholarship'); } catch (e) {}
+  try { Question = require('../models/Question'); } catch (e) {}
+  try { Announcement = require('../models/Announcement'); } catch (e) {}
 
   if (Quiz) {
     Quiz.countDocuments = function () { return Promise.resolve(0); };
@@ -72,6 +74,26 @@ const setupInMemoryStore = () => {
     Material.countDocuments = function () { return Promise.resolve(0); };
     Material.find = function () { return makeMongooseQuery([]); };
     Material.findById = function () { return makeMongooseQuery(null); };
+  }
+
+  if (Scholarship) {
+    Scholarship.countDocuments = function () { return Promise.resolve(0); };
+    Scholarship.find = function () { return makeMongooseQuery([]); };
+    Scholarship.findById = function () { return makeMongooseQuery(null); };
+    Scholarship.create = function (doc) { return Promise.resolve(doc); };
+  }
+
+  if (Question) {
+    Question.find = function () { return makeMongooseQuery([]); };
+    Question.findById = function () { return makeMongooseQuery(null); };
+    Question.create = function (doc) { return Promise.resolve(doc); };
+  }
+
+  if (Announcement) {
+    Announcement.countDocuments = function () { return Promise.resolve(0); };
+    Announcement.find = function () { return makeMongooseQuery([]); };
+    Announcement.findById = function () { return makeMongooseQuery(null); };
+    Announcement.create = function (doc) { return Promise.resolve(doc); };
   }
 
   const usersStore = new Map();
