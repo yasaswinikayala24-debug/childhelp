@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
+import RoleProtectedRoute from './components/RoleProtectedRoute';
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Login from './pages/Login';
@@ -9,17 +12,21 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import StudyMaterials from './pages/StudyMaterials';
 import MaterialDetails from './pages/MaterialDetails';
-import MyLearning from './pages/MyLearning';
 import Quizzes from './pages/Quizzes';
 import QuizDetails from './pages/QuizDetails';
 import QuizResult from './pages/QuizResult';
 import MyProgress from './pages/MyProgress';
+import Scholarships from './pages/Scholarships';
+import Announcements from './pages/Announcements';
+import MentorSupport from './pages/MentorSupport';
+import MentorDashboard from './pages/MentorDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import AskDoubt from './pages/AskDoubt';
 
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Read initial user state from localStorage
     const savedUser = localStorage.getItem('childhelp_user');
     const token = localStorage.getItem('childhelp_token');
     if (savedUser && token) {
@@ -43,6 +50,13 @@ function App() {
     setUser(null);
   };
 
+  const getDashboardRedirect = () => {
+    if (!user) return <Navigate to="/login" replace />;
+    if (user.role === 'admin') return <Navigate to="/admin-dashboard" replace />;
+    if (user.role === 'mentor') return <Navigate to="/mentor-dashboard" replace />;
+    return <Dashboard user={user} onLogout={handleLogout} />;
+  };
+
   return (
     <Router>
       <Navbar user={user} onLogout={handleLogout} />
@@ -51,19 +65,24 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Login Page */}
+        {/* Auth Routes */}
         <Route
           path="/login"
           element={
             user ? (
-              <Navigate to="/dashboard" replace />
+              user.role === 'admin' ? (
+                <Navigate to="/admin-dashboard" replace />
+              ) : user.role === 'mentor' ? (
+                <Navigate to="/mentor-dashboard" replace />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
             ) : (
               <Login onLoginSuccess={handleLoginSuccess} />
             )
           }
         />
 
-        {/* Register Page */}
         <Route
           path="/register"
           element={
@@ -75,95 +94,112 @@ function App() {
           }
         />
 
-        {/* Protected Dashboard Route */}
-        <Route
-          path="/dashboard"
-          element={
-            user ? (
-              <Dashboard user={user} onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
+        {/* Role Smart Redirect / Student Dashboard */}
+        <Route path="/dashboard" element={getDashboardRedirect()} />
 
-        {/* Protected Study Materials Routes */}
+        {/* Protected Common & Student Routes */}
         <Route
           path="/materials"
           element={
-            user ? (
-              <StudyMaterials />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <ProtectedRoute user={user}>
+              <StudyMaterials user={user} />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/materials/:id"
           element={
-            user ? (
-              <MaterialDetails />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <ProtectedRoute user={user}>
+              <MaterialDetails user={user} />
+            </ProtectedRoute>
           }
         />
-
-        {/* Protected Smart Learning Hub Route */}
-        <Route
-          path="/my-learning"
-          element={
-            user ? (
-              <MyLearning />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-
-        {/* Phase 3 Protected Quizzes & Progress Routes */}
         <Route
           path="/quizzes"
           element={
-            user ? (
-              <Quizzes />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <ProtectedRoute user={user}>
+              <Quizzes user={user} />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/quizzes/:id"
           element={
-            user ? (
-              <QuizDetails />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <ProtectedRoute user={user}>
+              <QuizDetails user={user} />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/quiz-result"
           element={
-            user ? (
-              <QuizResult />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <ProtectedRoute user={user}>
+              <QuizResult user={user} />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/my-progress"
           element={
-            user ? (
-              <MyProgress />
-            ) : (
-              <Navigate to="/login" replace />
-            )
+            <ProtectedRoute user={user}>
+              <MyProgress user={user} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/scholarships"
+          element={
+            <ProtectedRoute user={user}>
+              <Scholarships user={user} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/announcements"
+          element={
+            <ProtectedRoute user={user}>
+              <Announcements user={user} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mentor-support"
+          element={
+            <ProtectedRoute user={user}>
+              <MentorSupport user={user} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ask-doubt"
+          element={
+            <ProtectedRoute user={user}>
+              <AskDoubt user={user} />
+            </ProtectedRoute>
           }
         />
 
-        {/* Catch all redirect to Home */}
+        {/* Protected Mentor Portal Route */}
+        <Route
+          path="/mentor-dashboard"
+          element={
+            <RoleProtectedRoute user={user} allowedRoles={['mentor', 'admin']}>
+              <MentorDashboard user={user} />
+            </RoleProtectedRoute>
+          }
+        />
+
+        {/* Protected Admin Control Panel Route */}
+        <Route
+          path="/admin-dashboard"
+          element={
+            <RoleProtectedRoute user={user} allowedRoles={['admin']}>
+              <AdminDashboard user={user} />
+            </RoleProtectedRoute>
+          }
+        />
+
+        {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />

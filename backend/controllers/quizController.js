@@ -132,3 +132,47 @@ exports.submitQuiz = async (req, res) => {
     res.status(500).json({ message: 'Server error while evaluating quiz submission' });
   }
 };
+
+// @desc    Update an existing quiz
+// @route   PUT /api/quizzes/:id
+// @access  Protected (Admin only)
+exports.updateQuiz = async (req, res) => {
+  try {
+    const { title, description, subject, classLevel, questions } = req.body;
+    const quiz = await Quiz.findById(req.params.id);
+    if (!quiz) {
+      return res.status(404).json({ message: 'Quiz not found' });
+    }
+
+    if (title) quiz.title = title;
+    if (description) quiz.description = description;
+    if (subject) quiz.subject = subject;
+    if (classLevel) quiz.classLevel = classLevel;
+    if (questions && Array.isArray(questions)) quiz.questions = questions;
+
+    const updatedQuiz = await quiz.save();
+    res.json(updatedQuiz);
+  } catch (error) {
+    console.error('Error updating quiz:', error);
+    res.status(500).json({ message: 'Server error while updating quiz' });
+  }
+};
+
+// @desc    Delete a quiz
+// @route   DELETE /api/quizzes/:id
+// @access  Protected (Admin only)
+exports.deleteQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.id);
+    if (!quiz) {
+      return res.status(404).json({ message: 'Quiz not found' });
+    }
+
+    await Quiz.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Quiz deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting quiz:', error);
+    res.status(500).json({ message: 'Server error while deleting quiz' });
+  }
+};
+

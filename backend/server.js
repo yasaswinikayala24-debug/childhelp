@@ -260,6 +260,8 @@ app.get('/api', (req, res) => {
 const scholarshipRoutes = require('./routes/scholarshipRoutes');
 const questionRoutes = require('./routes/questionRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const Scholarship = require('./models/Scholarship');
 const Announcement = require('./models/Announcement');
 
@@ -305,10 +307,13 @@ app.use('/questions', questionRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/announcements', announcementRoutes);
 
-// Error handler for unknown routes
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+// Admin routes
+app.use('/api/admin', adminRoutes);
+app.use('/admin', adminRoutes);
+
+// Custom 404 & Error Handler middleware
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

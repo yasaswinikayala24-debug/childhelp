@@ -217,8 +217,61 @@ const createMaterial = async (req, res) => {
   }
 };
 
+// @desc    Update study material
+// @route   PUT /api/materials/:id
+// @access  Protected (Admin/UploadedBy)
+const updateMaterial = async (req, res) => {
+  try {
+    const { title, description, subject, classLevel, type, resourceUrl, difficulty, estimatedTime, keywords } = req.body;
+    const material = await Material.findById(req.params.id);
+
+    if (!material) {
+      return res.status(404).json({ message: 'Material not found' });
+    }
+
+    if (title) material.title = title;
+    if (description) material.description = description;
+    if (subject) material.subject = subject;
+    if (classLevel) material.classLevel = classLevel;
+    if (type) material.type = type;
+    if (resourceUrl) material.resourceUrl = resourceUrl;
+    if (difficulty) material.difficulty = difficulty;
+    if (estimatedTime) material.estimatedTime = Number(estimatedTime);
+    if (keywords) {
+      material.keywords = Array.isArray(keywords) ? keywords : keywords.split(',').map((k) => k.trim());
+    }
+
+    const updated = await material.save();
+    res.json(updated);
+  } catch (error) {
+    console.error('Error updating material:', error.message);
+    res.status(500).json({ message: 'Server error updating study material' });
+  }
+};
+
+// @desc    Delete study material
+// @route   DELETE /api/materials/:id
+// @access  Protected (Admin)
+const deleteMaterial = async (req, res) => {
+  try {
+    const material = await Material.findById(req.params.id);
+    if (!material) {
+      return res.status(404).json({ message: 'Material not found' });
+    }
+
+    await Material.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Material deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting material:', error.message);
+    res.status(500).json({ message: 'Server error deleting study material' });
+  }
+};
+
 module.exports = {
   getMaterials,
   getMaterialById,
   createMaterial,
+  updateMaterial,
+  deleteMaterial,
 };
+
